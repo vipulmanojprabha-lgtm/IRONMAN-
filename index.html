@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>Ace | 5LVL WIN CONFIRM + BDG Win Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060A; --red:#ff263d; --gold:#ffd36a; --green:#19E5A4; --txt:#fff; 
+  --purple:#8B5CF6; --border:rgba(255,78,91,.22);
+  --font-main: 'Poppins', sans-serif;
+  --font-tech: 'Orbitron', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font-main);background:var(--bg);color:var(--txt);display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;}
+
+/* ===== COMMON GLASS STYLES ===== */
+.glass-container {
+    background: rgba(20, 10, 15, 0.4);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px; padding: 30px 40px;
+    display: flex; flex-direction: column; align-items: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* --- GENZ AESTHETIC LOADER --- */
+#genzLoader {
+    position: fixed; inset: 0; background: #05060A; z-index: 99999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity 0.5s ease-out;
+    background-image: radial-gradient(circle at 15% 50%, rgba(255, 38, 61, 0.08), transparent 40%),
+                      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 40%);
+}
+.spinner-box { position: relative; width: 70px; height: 70px; margin-bottom: 20px; }
+.ring-outer { position: absolute; inset: 0; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--red); border-left-color: var(--red); animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; filter: drop-shadow(0 0 10px rgba(255, 38, 61, 0.6)); }
+.ring-inner { position: absolute; inset: 10px; border-radius: 50%; border: 2px solid transparent; border-bottom-color: var(--purple); border-right-color: var(--purple); animation: spin-reverse 1s linear infinite; filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6)); }
+.spinner-center { position: absolute; inset: 25px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 15px var(--gold); animation: pulse 1.5s ease-in-out infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.8); opacity: 0.6; } }
+
+.loader-title { font-family: var(--font-tech); font-size: 20px; font-weight: 900; letter-spacing: 3px; color: #fff; margin-bottom: 6px; text-transform: uppercase; }
+.loader-title span { color: var(--gold); }
+.loader-sub { font-size: 11px; color: #888; margin-bottom: 25px; letter-spacing: 1px; font-weight: 600; }
+
+.progress-container { width: 220px; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; position: relative; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--red), var(--gold), var(--red)); background-size: 200% 100%; animation: gradientShift 2s linear infinite; border-radius: 10px; box-shadow: 0 0 10px rgba(255, 38, 61, 0.8); transition: width 0.1s linear; }
+@keyframes gradientShift { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+.percent-text { margin-top: 10px; font-family: var(--font-tech); font-size: 14px; font-weight: 700; color: var(--red); font-variant-numeric: tabular-nums; }
+
+/* --- MAIN CONTENT --- */
+#mainContent { display: none; flex-direction: column; width: 100vw; height: 100vh; height: 100dvh; }
+
+/* TOP PANEL (25%) */
+#topPanel{flex:0 0 25%;background:linear-gradient(180deg,#1a0a0e 0%,#05060A 100%);display:flex;flex-direction:column;border-bottom:1px solid var(--red);overflow:hidden;}
+.top-header{ background:linear-gradient(155deg,#230a10,#0a0608); border-bottom:1px solid var(--border); padding:6px 10px; display:flex; justify-content:space-between; align-items:center; }
+.brand-name{font-family: var(--font-tech); font-size:13px;font-weight:900;color:var(--gold);letter-spacing:2px;text-shadow:0 0 10px rgba(255,211,106,0.3);}
+.mode-toggle{display:flex;gap:3px;background:#111;padding:2px;border-radius:6px;border:1px solid #333;}
+.mode-btn{padding:4px 8px;border-radius:4px;font-family:var(--font-tech);font-size:9px;font-weight:bold;background:transparent;color:#777;border:none;cursor:pointer;transition:0.2s;}
+.mode-btn.active{background:var(--red);color:#fff;box-shadow: 0 0 8px rgba(255,38,61,0.6);}
+
+.panel-content{padding:4px 8px;overflow:hidden;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;position:relative;}
+
+/* ===== 💎 PREMIUM UID PANEL ===== */
+.uid-box { 
+    display: flex; flex-direction: column; gap: 6px; justify-content: center; 
+    height: 100%; align-items: center; position: relative;
+    background: radial-gradient(circle at center, rgba(255,211,106,0.05) 0%, transparent 70%);
+    border-radius: 12px; pointer-events: auto;
+}
+.uid-icon-wrap { position: relative; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+.uid-icon { font-size: 20px; z-index: 2; animation: floatIcon 2s ease-in-out infinite; filter: drop-shadow(0 0 10px rgba(255,211,106,0.8)); }
+.icon-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(255,211,106,0.4); animation: rotateRing 4s linear infinite; }
+@keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes rotateRing { 100% { transform: rotate(360deg); } }
+
+.uid-input-group { 
+    display: flex; gap: 6px; width: 100%; max-width: 320px;
+    background: rgba(5,6,10,0.8); padding: 4px; border-radius: 10px;
+    border: 1px solid rgba(255, 211, 106, 0.25); 
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 10px rgba(255,211,106,0.05);
+    transition: all 0.3s;
+}
+.uid-input-group:focus-within { border-color: var(--gold); box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 20px rgba(255,211,106,0.2); }
+
+.uid-input {
+    flex: 1; padding: 6px 8px; background: transparent !important;
+    border: none; color: var(--gold) !important; font-family: var(--font-tech);
+    font-size: 14px; font-weight: 900 !important; text-align: center; letter-spacing: 5px; outline: none;
+    -webkit-text-fill-color: var(--gold) !important;
+}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0 30px #05060A inset !important; -webkit-text-fill-color: var(--gold) !important; }
+.uid-input::placeholder { font-family: var(--font-main); color: #555; letter-spacing: 2px; font-size: 11px; font-weight: 600; -webkit-text-fill-color: #555;}
+.uid-input.shake { animation: shake 0.4s; color: var(--red) !important; -webkit-text-fill-color: var(--red) !important;}
+
+.uid-btn {
+    position: relative; overflow: hidden; padding: 0 14px; border-radius: 6px; border: none;
+    background: linear-gradient(135deg, #ffd36a, #ff8a00); color: #000; 
+    font-family: var(--font-tech); font-weight: 900; font-size: 10px; 
+    cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 0 12px rgba(255, 149, 0, 0.5); letter-spacing: 1px; min-width: 75px; 
+}
+.uid-btn:hover { box-shadow: 0 0 20px rgba(255, 149, 0, 0.8), 0 0 30px rgba(255, 211, 106, 0.4); transform: translateY(-1px); }
+.uid-btn:active, .uid-btn.pop-anim { animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+@keyframes popUp { 0% { transform: scale(1); box-shadow: 0 0 12px rgba(255, 149, 0, 0.5); } 50% { transform: scale(1.15); box-shadow: 0 0 30px rgba(255, 211, 106, 1), 0 0 40px rgba(255, 149, 0, 0.6); } 100% { transform: scale(0.95); box-shadow: 0 0 5px rgba(255, 149, 0, 0.3); } }
+
+.uid-btn.loading { color: transparent !important; pointer-events: none; animation: none; transform: scale(1); }
+.uid-btn.loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 2px solid rgba(0, 0, 0, 0.2); border-top-color: #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
+.uid-msg { font-size: 9px; text-align: center; height: 12px; transition: color 0.3s; font-weight: 700; letter-spacing: 1px;}
+
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } }
+
+/* ===== CONNECTING ANIMATION (3 SEC) ===== */
+#connectingState { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; position: absolute; top: 0; left: 0; background: linear-gradient(180deg, #1a0a0e 0%, #05060A 100%); z-index: 10; animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.connect-spinner { width: 36px; height: 36px; border-radius: 50%; border: 3px solid rgba(255, 211, 106, 0.1); border-top-color: var(--gold); border-right-color: var(--red); animation: spin 1s linear infinite; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,211,106,0.6)); }
+.connect-text { font-family: var(--font-tech); font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,211,106,0.5); animation: pulseText 1s infinite alternate; }
+.connect-check { font-size: 30px; margin-bottom: 4px; display: none; animation: popCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; filter: drop-shadow(0 0 15px rgba(25,229,164,0.8)); }
+@keyframes popCheck { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+@keyframes pulseText { from { opacity: 0.6; } to { opacity: 1; } }
+
+/* Three category prediction cards */
+.ai-cards-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:5px 0 6px}
+.ai-card{min-width:0;background:rgba(5,6,10,.92);border:1px solid #34303a;border-radius:5px;padding:4px 3px;text-align:center}
+.ai-card-title{font-size:7px;letter-spacing:.5px;color:#aaa;font-weight:800;display:flex;justify-content:center;align-items:center;gap:3px;white-space:nowrap}
+.ai-card-val{font-family:var(--font-tech);font-size:13px;font-weight:900;line-height:1.35;color:#777}
+.ai-card-val.B{color:var(--gold)} .ai-card-val.S{color:var(--red)}
+.ai-card-lvl{font-size:7px;color:#888;border:1px solid #444;border-radius:3px;padding:0 2px}
+.ai-card-lvl.high-lvl{color:var(--red);border-color:var(--red)}
+
+/* Prediction Box */
+#predBoxContainer { display: none; flex-direction: column; gap: 4px; height: 100%; }
+.pred-box{background:linear-gradient(155deg,#230a10,#0a0608);border:1px solid var(--border);border-radius:8px;padding:6px;position:relative;}
+.top-info{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#c77c83;font-weight:bold;margin-bottom:2px;}
+.pred-label{font-size:8px;letter-spacing:1px;color:#888;text-align:center;}
+.pred-value{font-family: var(--font-tech); font-size:30px;font-weight:900;text-align:center;margin:0;line-height:1.1;transition:all 0.3s;}
+.pred-value.B{color:var(--gold);text-shadow:0 0 15px rgba(255,211,106,0.4);}
+.pred-value.S{color:var(--red);text-shadow:0 0 15px rgba(255,38,61,0.4);}
+.pred-value.WAIT{color:#555;font-size:20px;}
+.pred-conf{font-size:9px;color:#d8b9bc;text-align:center;margin-bottom: 4px;}
+.level-row{display:flex;justify-content:space-between;gap:4px;margin-top:2px;}
+.l-box{flex:1;background:#05060A;border:1px solid #333;border-radius:4px;padding:2px 6px;text-align:center;display:flex;justify-content:space-between;align-items:center;}
+.l-title{font-size:7px;color:#777;font-weight:bold;}
+.l-val{font-family: var(--font-tech); font-size:10px;font-weight:900;color:var(--gold);}
+.boxes{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;}
+.box{aspect-ratio:1;border-radius:4px;background:#111;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:#555;}
+.box.B{background:rgba(255,211,106,0.15);color:var(--gold);border-color:var(--gold);}
+.box.S{background:rgba(255,38,61,0.15);color:var(--red);border-color:var(--red);}
+
+/* BOTTOM PANEL (Game - Loaded From Start) */
+#bottomPanel{ 
+    flex:1; 
+    position:relative; 
+    background:#000; 
+    overflow:hidden; 
+    display:flex; 
+    flex-direction:column; 
+}
+iframe{width:100%;height:100%;min-height:0;border:none;background:#111;display:block;flex:1;overflow:auto;-webkit-overflow-scrolling:touch;pointer-events:auto;touch-action:pan-x pan-y;}
+
+
+/* WIN ANIMATION */
+#winOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity 0.3s;backdrop-filter: blur(5px);}
+#winOverlay.show{display:flex;opacity:1;}
+.win-trophy{font-size:120px;animation:winPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;filter:drop-shadow(0 0 30px rgba(255, 211, 106, 0.8));}
+.win-text{font-family: var(--font-tech); font-size:40px;font-weight:900;color:var(--gold);letter-spacing:5px;margin-top:10px;text-shadow:0 0 20px rgba(255, 211, 106, 0.8);animation:slideUp 0.5s ease-out forwards;}
+@keyframes winPop{0%{transform:scale(0) rotate(-45deg);}100%{transform:scale(1) rotate(0);}}
+@keyframes slideUp{0%{transform:translateY(30px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+</style>
+<style>
+#accessLockOverlay{position:fixed;inset:0;z-index:1000000;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;background:rgba(3,4,8,.98);font-family:var(--font-main)}
+#accessLockOverlay .lock-card{max-width:360px;width:100%;padding:28px 22px;border:1px solid rgba(255,211,106,.35);border-radius:18px;background:linear-gradient(150deg,#1b1017,#08090d);box-shadow:0 0 35px rgba(255,38,61,.15)}
+#accessLockOverlay h2{font-family:var(--font-tech);font-size:20px;color:var(--gold);margin-bottom:12px}
+#accessLockOverlay p{font-size:13px;color:#ddd;line-height:1.7}
+#accessLockOverlay button{margin-top:18px;padding:12px 18px;border-radius:9px;background:var(--gold);color:#000;font-weight:900;border:0}
+</style>
+</head>
+<body>
+<div id="accessLockOverlay" role="alertdialog" aria-modal="true">
+  <div class="lock-card"><h2 id="accessLockTitle">ACCESS LOCKED</h2><p id="accessLockMessage">Access has been disabled by the administrator.</p><button id="accessLockOk" type="button">OK</button></div>
+</div>
+
+<!-- 1. GENZ AESTHETIC LOADER -->
+<div id="genzLoader">
+    <div class="glass-container">
+        <div class="spinner-box">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <div class="spinner-center"></div>
+        </div>
+        <div class="loader-title">VIPUL <span>BHAI</span></div>
+        <div class="loader-sub" id="loaderSubText">Initializing AI Engine...</div>
+        
+        <div class="progress-container">
+            <div class="progress-fill" id="loadFill"></div>
+        </div>
+        <div class="percent-text" id="loadPercent">0%</div>
+    </div>
+</div>
+
+<!-- 2. MAIN CONTENT -->
+<div id="mainContent">
+    <!-- WIN ANIMATION OVERLAY -->
+    <div id="winOverlay">
+        <div class="win-trophy">🏆</div>
+        <div class="win-text">WIN !</div>
+    </div>
+
+    <!-- TOP PANEL (25%) -->
+    <div id="topPanel">
+        <div class="top-header">
+            <div class="brand-name">VIPUL BHAI</div>
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="oneMinBtn" onclick="switchMode('1min')">1 MIN</button>
+                <button class="mode-btn" id="thirtySecBtn" onclick="switchMode('30sec')">30 SEC</button>
+            </div>
+        </div>
+
+        <div class="panel-content">
+            <!-- 💎 PREMIUM UID PANEL -->
+            <div id="uidBox" class="uid-box">
+                <div class="uid-icon-wrap">
+                    <div class="icon-ring"></div>
+                    <div class="uid-icon">🛡️</div>
+                </div>
+                <div class="uid-input-group">
+                    <input type="text" id="uidInput" class="uid-input" placeholder="ENTER UID" inputmode="numeric" maxlength="10" autocomplete="off">
+                    <button id="connectBtn" class="uid-btn">CONNECT</button>
+                </div>
+                <div id="uidSubText" class="uid-msg"></div>
+            </div>
+
+            <!-- 3-Second Connecting Animation -->
+            <div id="connectingState">
+                <div class="connect-spinner" id="connSpinner"></div>
+                <div class="connect-check" id="connCheck">✅</div>
+                <div class="connect-text" id="connectText">VERIFYING UID...</div>
+            </div>
+
+            <!-- Prediction Box -->
+            <div id="predBoxContainer">
+                <div class="pred-box">
+                    <div class="top-info">
+                        <span id="periodId" style="font-family: var(--font-tech);">...</span>
+                        <span id="timer" style="color:var(--gold); font-family: var(--font-tech);">⏱ --s</span>
+                    </div>
+                    <div class="pred-label">FINAL PREDICTION</div>
+                    <div class="pred-value WAIT" id="predValue">WAIT</div>
+                    <div class="pred-conf">Confidence: <span id="predConf" style="color:var(--gold);">—</span></div>
+                    <div class="ai-cards-row">
+                        <div class="ai-card"><div class="ai-card-title">COMBO <span class="ai-card-lvl" id="lvlCombo">L1</span></div><div class="ai-card-val WAIT" id="valCombo">—</div></div>
+                        <div class="ai-card"><div class="ai-card-title">PERSONAL <span class="ai-card-lvl" id="lvlPersonal">L1</span></div><div class="ai-card-val WAIT" id="valPersonal">—</div></div>
+                        <div class="ai-card"><div class="ai-card-title">TRICK <span class="ai-card-lvl" id="lvlTrick">L1</span></div><div class="ai-card-val WAIT" id="valTrick">—</div></div>
+                    </div>
+                    <div class="level-row">
+                        <div class="l-box">
+                            <span class="l-title">HIGHEST:</span>
+                            <span class="l-val" id="highestLevelDisplay">L1</span>
+                        </div>
+                        <div class="l-box">
+                            <span class="l-title">CURRENT:</span>
+                            <span class="l-val" id="currentLevelDisplay">L1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM PANEL (75%) - GAME LOADS IMMEDIATELY -->
+    <div id="bottomPanel">
+        <iframe id="gameIframe" title="BDG Win game" src="https://bdgwin37.com/#/register?invitationCode=8674616623662" allow="fullscreen; clipboard-read; clipboard-write; payment" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getDatabase, ref, get, onValue, set, remove, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBFdvXN8SAy77EDQp5HNykO5z2Wa0W8sb0',
+  authDomain: 'bdgrocky.firebaseapp.com',
+  databaseURL: 'https://bdgrocky-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'bdgrocky'
+};
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const settingsRef = ref(db, 'settings');
+const approvedRef = ref(db, 'approved_uids');
+let settingsCache = null;
+let approvedCache = null;
+let settingsReadyResolve, approvedReadyResolve;
+const settingsReady = new Promise(resolve => settingsReadyResolve = resolve);
+const approvedReady = new Promise(resolve => approvedReadyResolve = resolve);
+window.accessControlReady = Promise.all([settingsReady, approvedReady]);
+let previousAuthVersion;
+let loggedInUid = '';
+let sessionKey = 'sess_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+let sessionRegistered = false;
+
+function uidKey(uid) { return String(uid || '').trim().replace(/[.#$\/\[\]]/g, '_'); }
+function isApproved(uid) {
+  if (!approvedCache) return false;
+  const item = approvedCache[uidKey(uid)];
+  return !!(item && item.approved === true && String(item.uid || '').trim() === String(uid).trim());
+}
+function showLock(title, message) {
+  const overlay = document.getElementById('accessLockOverlay');
+  document.getElementById('accessLockTitle').textContent = title;
+  document.getElementById('accessLockMessage').textContent = message;
+  overlay.style.display = 'flex';
+}
+async function endSession(title, message) {
+  loggedInUid = '';
+  window.isVerified = false;
+  const pred = document.getElementById('predBoxContainer');
+  const uidBox = document.getElementById('uidBox');
+  const connecting = document.getElementById('connectingState');
+  const btn = document.getElementById('connectBtn');
+  if (pred) pred.style.display = 'none';
+  if (connecting) connecting.style.display = 'none';
+  if (uidBox) uidBox.style.display = 'flex';
+  if (btn) { btn.disabled = false; btn.classList.remove('loading'); }
+  const input = document.getElementById('uidInput');
+  if (input) input.value = '';
+  if (sessionRegistered) {
+    try { await remove(ref(db, 'active_users/' + sessionKey)); } catch (_) {}
+    sessionRegistered = false;
+  }
+  showLock(title, message);
+}
+window.verifyAdminAccess = async function(uid) {
+  await window.accessControlReady;
+  if (settingsCache && settingsCache.maintenance === true) return {ok:false, reason:'MAINTENANCE MODE IS ON'};
+  if (!isApproved(uid)) return {ok:false, reason:'UID NOT APPROVED BY ADMIN'};
+  loggedInUid = String(uid).trim();
+  window.isVerified = true;
+  return {ok:true};
+};
+
+onValue(settingsRef, snapshot => {
+  settingsCache = snapshot.exists() ? snapshot.val() : {};
+  settingsReadyResolve();
+  const version = settingsCache.authVersion ?? null;
+  if (previousAuthVersion !== undefined && version !== previousAuthVersion && loggedInUid) {
+    endSession('SECURITY UPDATED', 'Admin changed security settings. Please verify your UID again.');
+  }
+  previousAuthVersion = version;
+  if (settingsCache.maintenance === true) {
+    if (loggedInUid || window.isVerified) endSession('MAINTENANCE MODE', 'The administrator enabled maintenance. All sessions have been logged out.');
+    else {
+      document.getElementById('uidSubText').textContent = 'SYSTEM UNDER MAINTENANCE';
+      document.getElementById('uidSubText').style.color = 'var(--red)';
+    }
+  } else {
+    const msg = document.getElementById('uidSubText');
+    if (msg && msg.textContent === 'SYSTEM UNDER MAINTENANCE') msg.textContent = '';
+  }
+}, error => {
+  console.error('Firebase settings listener failed', error);
+  settingsReadyResolve();
+});
+onValue(approvedRef, snapshot => {
+  approvedCache = snapshot.exists() ? snapshot.val() : {};
+  approvedReadyResolve();
+  if (loggedInUid && !isApproved(loggedInUid)) endSession('UID ACCESS REVOKED', 'Your UID is no longer approved by the administrator.');
+}, error => { console.error('Approved UID listener failed', error); approvedReadyResolve(); });
+
+document.getElementById('accessLockOk').addEventListener('click', () => {
+  document.getElementById('accessLockOverlay').style.display = 'none';
+});
+// Register presence after a successful UID verification. Presence is informational; access checks are separate.
+const originalVerify = window.verifyAdminAccess;
+window.verifyAdminAccess = async function(uid) {
+  const result = await originalVerify(uid);
+  if (!result.ok) return result;
+  try {
+    const userRef = ref(db, 'active_users/' + sessionKey);
+    await set(userRef, { uid: String(uid).trim(), startedAt: Date.now(), page: 'Ace.html' });
+    sessionRegistered = true;
+    onDisconnect(userRef).remove().catch(() => {});
+  } catch (err) { console.warn('Could not register active session', err); }
+  return result;
+};
+</script>
+
+<script>
+/* ===== GLOBAL VERIFICATION FLAG ===== */
+window.isVerified = false; 
+let numInputVal='';
+let chartNum1=null;
+let akatsukiStrategy='DOJUTSU';
+
+/* ===== 1. GENZ LOADER LOGIC ===== */
+const loadFill = document.getElementById('loadFill');
+const loadPercent = document.getElementById('loadPercent');
+const loaderSubText = document.getElementById('loaderSubText');
+const genzLoader = document.getElementById('genzLoader');
+const mainContent = document.getElementById('mainContent');
+
+let progress = 0;
+const loadInterval = setInterval(() => {
+    progress += 2; 
+    if(progress > 100) progress = 100;
+    
+    loadFill.style.width = progress + '%';
+    loadPercent.textContent = progress + '%';
+
+    if (progress === 20) loaderSubText.textContent = "Fetching Live Data...";
+    if (progress === 45) loaderSubText.textContent = "Syncing AI Models...";
+    if (progress === 70) loaderSubText.textContent = "Connecting to Server...";
+    if (progress === 90) loaderSubText.textContent = "Almost Ready...";
+    
+    if (progress >= 100) {
+        clearInterval(loadInterval);
+        loaderSubText.textContent = "Initialization Complete.";
+        loaderSubText.style.color = "var(--gold)";
+        
+        setTimeout(() => {
+            genzLoader.style.opacity = '0';
+            setTimeout(() => {
+                genzLoader.style.display = 'none';
+                mainContent.style.display = 'flex'; 
+                document.getElementById('uidInput').focus();
+            }, 500);
+        }, 400);
+    }
+}, 100);
+
+
+/* ===== 2. UID VERIFICATION & 3 SEC ANIMATION ===== */
+const connectBtn = document.getElementById('connectBtn');
+const uidInput = document.getElementById('uidInput');
+const uidSubText = document.getElementById('uidSubText');
+const uidBox = document.getElementById('uidBox');
+const predBoxContainer = document.getElementById('predBoxContainer');
+
+const connectingState = document.getElementById('connectingState');
+const connectText = document.getElementById('connectText');
+const connSpinner = document.getElementById('connSpinner');
+const connCheck = document.getElementById('connCheck');
+
+// Access is controlled by the Admin Panel through Firebase; no hard-coded UID bypass.
+let currentVerifiedUid = '';
+let accessAttempt = 0;
+
+connectBtn.addEventListener('click', async () => {
+    const val = uidInput.value.trim();
+    if (!val) {
+        uidSubText.textContent = 'PLEASE ENTER YOUR UID';
+        uidSubText.style.color = 'var(--red)';
+        return;
+    }
+    const attempt = ++accessAttempt;
+    connectBtn.disabled = true;
+    connectBtn.classList.add('loading');
+    uidSubText.textContent = 'CHECKING ACCESS...';
+    uidSubText.style.color = 'var(--gold)';
+    try {
+        await window.accessControlReady;
+        const result = await window.verifyAdminAccess(val);
+        if (attempt !== accessAttempt) return;
+        if (!result.ok) {
+            connectBtn.classList.remove('loading');
+            connectBtn.disabled = false;
+            uidInput.classList.add('shake');
+            uidSubText.textContent = result.reason || 'UID NOT APPROVED';
+            uidSubText.style.color = 'var(--red)';
+            setTimeout(() => uidInput.classList.remove('shake'), 450);
+            return;
+        }
+        currentVerifiedUid = val;
+        connectBtn.classList.remove('loading');
+        uidBox.style.display = 'none';
+        connectingState.style.display = 'flex';
+        connSpinner.style.display = 'block';
+        connCheck.style.display = 'none';
+        connectText.style.color = 'var(--gold)';
+        connectText.textContent = 'VERIFYING UID...';
+        setTimeout(() => { if (attempt === accessAttempt) connectText.textContent = 'CONNECTING TO SERVER...'; }, 1200);
+        setTimeout(() => {
+            if (attempt !== accessAttempt || !isVerified) return;
+            connSpinner.style.display = 'none';
+            connCheck.style.display = 'block';
+            connectText.textContent = 'ACCESS GRANTED';
+            connectText.style.color = 'var(--green)';
+            connectText.style.textShadow = '0 0 10px rgba(25,229,164,0.5)';
+        }, 2500);
+        setTimeout(() => {
+            if (attempt !== accessAttempt || !isVerified) return;
+            connectingState.style.display = 'none';
+            predBoxContainer.style.display = 'flex';
+            connectBtn.disabled = false;
+            if (window10.every(x => x === null)) {
+                window10 = ['B','S','B','B','S','B','S','B','S','B'];
+                mode = 'rolling'; updatePrediction(); renderAll();
+            }
+        }, 3200);
+    } catch (err) {
+        connectBtn.classList.remove('loading');
+        connectBtn.disabled = false;
+        uidSubText.textContent = 'SERVER CHECK FAILED — TRY AGAIN';
+        uidSubText.style.color = 'var(--red)';
+        console.error('Access check failed', err);
+    }
+});
+
+uidInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') connectBtn.click();
+});
+
+
+/* ===== COMBO / PERSONAL / TRICK PREDICTION LOGIC ===== */
+const KEY_MAP={'0000':'B','0101':'S','0202':'S','0303':'B','0404':'S','0505':'S','0606':'B','0707':'B','0808':'S','0909':'S','1010':'S','1111':'S','1212':'B','1313':'S','1414':'B','1515':'S','1616':'B','1717':'S','1818':'S','1919':'S','2020':'B','2121':'S','2222':'S','2323':'S','2424':'B','2525':'S','2626':'S','2727':'S','2828':'S','2929':'S','3030':'S','3131':'S','3232':'S','3333':'S','3434':'S','3535':'B','3636':'B','3737':'B','3838':'S','3939':'S','4040':'S','4141':'S','4242':'B','4343':'B','4444':'S','4545':'B','4646':'S','4747':'S','4848':'S','4949':'B','5050':'S','5151':'S','5252':'S','5353':'S','5454':'B','5555':'S','5656':'S','5757':'S','5858':'S','5959':'B','6060':'S','6161':'S','6262':'S','6363':'S','6464':'S','6565':'B','6666':'S','6767':'S','6868':'B','6969':'S','7070':'B','7171':'S','7272':'S','7373':'B','7474':'S','7575':'B','7676':'S','7777':'S','7878':'S','7979':'S','8080':'B','8181':'B','8282':'S','8383':'S','8484':'B','8585':'S','8686':'B','8787':'B','8888':'S','8989':'B','9090':'S','9191':'S','9292':'S','9393':'B','9494':'S','9595':'S','9696':'B','9797':'B','9898':'B','9999':'S'};
+const NUMBER_CHART=['B','B','S','S','B','B','S','S','B','B','S','B','S','B','S','S','S','B','S','B','S','S','S','B','B','B','S','S','S','B','S','S','B','S','B','S','B','S','B','S','S','S','S','B','B','S','S','S','B','B','S','S','S','S','S','S','S','S','B','B','S','B','B','B','S','B','B','B','B','B','S','B','S','B','B','B','B','S','B','S','S','B','B','S','S','S','B','S','S','B','B','B','S','B','S','B','B','S','S','B'];
+
+// --- [1] COMEBACK LOGIC ---
+function getVipCoreVote(seqChrono){
+  if(!Array.isArray(seqChrono)||seqChrono.length<5)return null;
+  const bits=seqChrono.map(x=>x==='B'?1:0);
+  const n=bits.length;
+  const vWin=bits.slice(-Math.min(5,n));
+  const vSum=vWin.reduce((a,b)=>a+b,0);
+  const vVote=vSum%2===0?'B':'S';
+  const last2=bits.slice(-2);
+  const iVal=last2[0]*2+last2[1];
+  const iVote=iVal>=2?'B':'S';
+  const last3=bits.slice(-3).join('');
+  const colorMap={'000':'S','001':'S','010':'B','011':'B','100':'B','101':'S','110':'B','111':'S'};
+  const pVote=colorMap[last3]||'S';
+  let bV=0,sV=0;
+  if(vVote==='B')bV++;else sV++;
+  if(iVote==='B')bV++;else sV++;
+  if(pVote==='B')bV++;else sV++;
+  let aiVal; if(bV>sV)aiVal='B'; else if(sV>bV)aiVal='S'; else {const avg=bits.reduce((a,b)=>a+b,0)/n;aiVal=avg>=0.5?'S':'B';}
+  return{value:aiVal,weight:3.2};
+}
+
+function getComebackVote(seqChrono,periodId){
+  const last2=periodId.slice(-2),key=last2+last2;
+  const keyMapVote=KEY_MAP[key];
+  const numVote=chartNum1!==null?NUMBER_CHART[chartNum1]:null;
+  
+  const votes=[];
+  if(keyMapVote) votes.push({value:keyMapVote, weight:1});
+  if(numVote) votes.push({value:numVote, weight:1});
+  
+  if(votes.length===0) return null;
+  const bW=votes.filter(v=>v.value==='B').reduce((s,v)=>s+v.weight,0);
+  const sW=votes.filter(v=>v.value==='S').reduce((s,v)=>s+v.weight,0);
+  if(bW===sW) return null;
+  return {value: bW>sW?'B':'S', weight:3.5};
+}
+
+function akatsukiComputeBSWeights(bs){
+  if(!bs.length||bs.length<3){const r=Math.random();return {B:r,S:1-r}}
+  let streak=1;
+  for(let i=1;i<Math.min(bs.length,8);i++){if(bs[i]===bs[0])streak++;else break}
+  let wB=0.5,wS=0.5;
+  if(streak>=4){if(bs[0]==='B'){wS+=0.32;wB-=0.32}else{wB+=0.32;wS-=0.32}}
+  else if(streak>=3){if(bs[0]==='B'){wS+=0.22;wB-=0.22}else{wB+=0.22;wS-=0.22}}
+  else if(streak>=2){if(bs[0]==='B'){wS+=0.10;wB-=0.10}else{wB+=0.10;wS-=0.10}}
+  const last10=bs.slice(0,10);
+  const bCnt=last10.filter(x=>x==='B').length;
+  const sCnt=last10.length-bCnt;
+  if(bCnt>=8){wS+=0.26;wB-=0.26}else if(bCnt>=7){wS+=0.18;wB-=0.18}else if(bCnt>=6){wS+=0.08;wB-=0.08}
+  if(sCnt>=8){wB+=0.26;wS-=0.26}else if(sCnt>=7){wB+=0.18;wS-=0.18}else if(sCnt>=6){wB+=0.08;wS-=0.08}
+  return {B: Math.max(0.05,Math.min(0.95,wB)), S: Math.max(0.05,Math.min(0.95,wS))};
+}
+function getAkatsukiVote(seqChrono){
+  if(seqChrono.length<3)return null;
+  const bs=seqChrono.slice().reverse(); 
+  const ws=akatsukiComputeBSWeights(bs);
+  return {value: ws.B>=ws.S?'B':'S', weight:3.0};
+}
+function getCOMBO_Card_Vote(seq,periodId){
+  const v1=getVipCoreVote(seq);
+  const v2=getComebackVote(seq,periodId);
+  const v3=getAkatsukiVote(seq);
+  const votes=[v1,v2,v3].filter(v=>v!==null);
+  if(votes.length===0)return null;
+  const bW=votes.filter(v=>v.value==='B').reduce((s,v)=>s+v.weight,0);
+  const sW=votes.filter(v=>v.value==='S').reduce((s,v)=>s+v.weight,0);
+  return bW>=sW?'B':'S';
+}
+
+// --- [2] PERSONAL LOGIC ---
+function getNexaCoreVote(seqChrono){
+  if(seqChrono.length<5)return null;
+  const bits=seqChrono.map(x=>x==='B'?1:0);
+  const last4=bits.slice(-4).join('');
+  let matchB=0,matchS=0;
+  for(let i=0;i<bits.length-4;i++){
+    if(bits.slice(i,i+4).join('')===last4){ if(bits[i+4]===1)matchB++; else matchS++; }
+  }
+  let big=0,small=0;
+  if(matchB!==matchS){if(matchB>matchS)big+=35;else small+=35;}
+  const shortMA=bits.slice(-5).reduce((a,b)=>a+b,0)/5;
+  const longMA=bits.slice(-20).reduce((a,b)=>a+b,0)/bits.slice(-20).length;
+  if(shortMA>longMA&&shortMA>0.5)big+=20; else if(shortMA<longMA&&shortMA<0.5)small+=20;
+  const ratio=bits.slice(-15).reduce((a,b)=>a+b,0)/15;
+  if(ratio>=0.8)small+=55; else if(ratio<=0.2)big+=55;
+  let val; if(big>small)val='B'; else if(small>big)val='S'; else val=shortMA>longMA?'B':'S';
+  return {value:val, weight:4};
+}
+
+function getOmniEnsembleVote(seqChrono, allHistory){
+  const allResults=[];
+  if(Array.isArray(allHistory)){
+    for(const h of allHistory){if(h&&(h.actual==='B'||h.actual==='S'))allResults.push(h.actual)}
+  }
+  if(Array.isArray(seqChrono)){
+    for(const x of seqChrono){if(x==='B'||x==='S')allResults.push(x)}
+  }
+  const recent=allResults.slice(-20).reverse();
+  if(recent.length<3)return null;
+  const nums=recent.map(v=>v==='B'?7:2);
+  let big=0,small=0;
+  const avg=nums.reduce((a,b)=>a+b,0)/nums.length;
+  const variance=nums.reduce((a,b)=>a+Math.pow(b-avg,2),0)/nums.length;
+  const stdDev=Math.sqrt(variance);
+  if(avg>4.5+(stdDev*0.15))small+=35000000;
+  else if(avg<4.5-(stdDev*0.15))big+=35000000;
+  else{small+=17500000;big+=17500000}
+  let cons=1;
+  for(let i=0;i<recent.length-1;i++){if(recent[i]===recent[i+1])cons++;else break;}
+  if(cons>=4){recent[0]==='B'?small+=cons*15000000:big+=cons*15000000}
+  else if(cons===1){recent[0]==='B'?small+=28000000:big+=28000000}
+  else{recent[0]==='B'?big+=25000000:small+=25000000}
+  return {value: big>small?'B':'S', weight:2};
+}
+
+function getPERSONAL_Card_Vote(seq, history){
+  const v1=getNexaCoreVote(seq);
+  const v2=getOmniEnsembleVote(seq, history);
+  const votes=[v1,v2].filter(v=>v!==null);
+  if(votes.length===0)return null;
+  const bW=votes.filter(v=>v.value==='B').reduce((s,v)=>s+v.weight,0);
+  const sW=votes.filter(v=>v.value==='S').reduce((s,v)=>s+v.weight,0);
+  return bW>=sW?'B':'S';
+}
+
+
+/* =================================================================
+   ===== TRICK LOGIC (ported from LOGIC.HTML - 15 logics voting) =====
+   ================================================================= */
+
+/* -------- Helpers -------- */
+function lg_getSize(n){ return n >= 5 ? 'BIG' : 'SMALL'; }
+
+function lg_pickNumberFor(nums, size){
+  if(!nums.length) return null;
+  const pool = size === 'BIG' ? [5,6,7,8,9] : [0,1,2,3,4];
+  const freq = {};
+  nums.forEach(n => freq[n] = (freq[n]||0) + 1);
+  const gap = {};
+  pool.forEach(d => {
+    const idx = nums.indexOf(d);
+    gap[d] = idx === -1 ? nums.length : idx;
+  });
+  const scored = pool.map(n => ({ n, score:(freq[n]||0)*2 + (gap[n]||0)*1.5 }));
+  scored.sort((a,b)=> b.score - a.score);
+  return scored[0]?.n ?? pool[0];
+}
+
+function lg_computeBSWeights(nums){
+  if(nums.length < 3) return { BIG:0.5, SMALL:0.5 };
+  const bsh = nums.map(lg_getSize);
+  let streak = 1;
+  for(let i=1;i<Math.min(bsh.length,8);i++){ if(bsh[i]===bsh[0]) streak++; else break; }
+  let wB = 0.5, wS = 0.5;
+  if(streak >= 4){ if(bsh[0]==='BIG'){ wS+=0.32; wB-=0.32; } else { wB+=0.32; wS-=0.32; } }
+  else if(streak >= 3){ if(bsh[0]==='BIG'){ wS+=0.22; wB-=0.22; } else { wB+=0.22; wS-=0.22; } }
+  else if(streak >= 2){ if(bsh[0]==='BIG'){ wS+=0.10; wB-=0.10; } else { wB+=0.10; wS-=0.10; } }
+  const last10 = bsh.slice(0,10);
+  const bCnt = last10.filter(x=>x==='BIG').length;
+  const sCnt = 10 - bCnt;
+  if(bCnt >= 8){ wS+=0.26; wB-=0.26; }
+  else if(bCnt >= 7){ wS+=0.18; wB-=0.18; }
+  else if(bCnt >= 6){ wS+=0.08; wB-=0.08; }
+  if(sCnt >= 8){ wB+=0.26; wS-=0.26; }
+  else if(sCnt >= 7){ wB+=0.18; wS-=0.18; }
+  else if(sCnt >= 6){ wB+=0.08; wS-=0.08; }
+  let alt = 0;
+  const L = Math.min(bsh.length-1, 12);
+  for(let i=0;i<L;i++) if(bsh[i]!==bsh[i+1]) alt++;
+  const altRate = alt / Math.max(1, L);
+  if(altRate > 0.72){ if(bsh[0]==='BIG'){ wS+=0.20; wB-=0.20; } else { wB+=0.20; wS-=0.20; } }
+  else if(altRate < 0.28){ if(bsh[0]==='BIG'){ wB+=0.12; wS-=0.12; } else { wS+=0.12; wB-=0.12; } }
+  const trans = Array(10).fill(null).map(()=>Array(10).fill(0));
+  for(let i=1;i<nums.length;i++) trans[nums[i-1]][nums[i]]++;
+  const tr = trans[nums[0]];
+  const tot = tr.reduce((a,b)=>a+b,0);
+  if(tot > 2){
+    let tB = 0, tS = 0;
+    for(let i=0;i<10;i++){ if(i>=5) tB+=tr[i]; else tS+=tr[i]; }
+    const frac = tB / tot;
+    wB += (frac - 0.5) * 0.30;
+    wS -= (frac - 0.5) * 0.30;
+  }
+  wB = Math.max(0.05, Math.min(0.95, wB));
+  wS = Math.max(0.05, Math.min(0.95, wS));
+  const tot2 = wB + wS;
+  return { BIG: wB/tot2, SMALL: wS/tot2 };
+}
+
+function lg_nextIssueId(issue){
+  const value = String(issue ?? '');
+  const match = value.match(/^(.*?)(\d+)$/);
+  if(!match) return null;
+  try {
+    const next = (BigInt(match[2]) + 1n).toString().padStart(match[2].length, '0');
+    return match[1] + next;
+  } catch(e) { return null; }
+}
+
+/* -------- Logic 1: noname.html -------- */
+function lg_logic_drago_noname(ctx){
+  const { nums } = ctx;
+  if(nums.length < 3) return null;
+  const ws = lg_computeBSWeights(nums);
+  const size = ws.BIG >= ws.SMALL ? 'BIG' : 'SMALL';
+  return { prediction:size, number:lg_pickNumberFor(nums, size), reason:`wts B${ws.BIG.toFixed(2)}/S${ws.SMALL.toFixed(2)}` };
+}
+
+/* -------- Logic 2: KING VIP HACK.html -------- */
+function lg_logic_kingvip(ctx){
+  const { period } = ctx;
+  if(!period) return null;
+  const last1 = parseInt(period.slice(-1), 10);
+  const last3 = parseInt(period.slice(-3), 10);
+  if(isNaN(last1) || isNaN(last3)) return null;
+  const val = (last1 * 7 + last3) % 10;
+  return { prediction: val >= 5 ? 'BIG' : 'SMALL', number: val, reason:`AI(${last3})→${val}` };
+}
+
+/* -------- Logic 3: 8 th scalping (1) (1) (1).html -------- */
+function lg_logic_wolfcore(ctx){
+  const { nums } = ctx;
+  if(nums.length < 8) return null;
+  const last20 = nums.slice(0, Math.min(20, nums.length));
+  const last10Sizes = last20.slice(0, Math.min(10, last20.length)).map(lg_getSize);
+  let bigW = 0, smallW = 0;
+  const markovMatrix = last20.reduce((acc,val,idx)=>{
+    if(idx < last20.length-1) acc += Math.abs(val - last20[idx+1]);
+    return acc;
+  }, 0);
+  const vol = markovMatrix / (last20.length - 1);
+  const avg = last20.reduce((a,b)=>a+b,0) / last20.length;
+  const variance = last20.reduce((a,b)=>a+Math.pow(b-avg,2),0) / last20.length;
+  const stdDev = Math.sqrt(variance);
+  if(avg > 4.5 + stdDev*0.15) smallW += 35;
+  else if(avg < 4.5 - stdDev*0.15) bigW += 35;
+  else { smallW += 17.5; bigW += 17.5; }
+  let cons = 1;
+  for(let i=0;i<Math.min(9, last10Sizes.length-1);i++){
+    if(last10Sizes[i]===last10Sizes[i+1]) cons++; else break;
+  }
+  if(cons >= 4){ if(last10Sizes[0]==='BIG') smallW += cons * 15; else bigW += cons * 15; }
+  else if(cons === 1){ if(last10Sizes[0]==='BIG') smallW += 28; else bigW += 28; }
+  else { if(last10Sizes[0]==='BIG') bigW += 25; else smallW += 25; }
+  const gap = Math.abs(last20[0] - last20[1]);
+  const harm = Math.sin(gap) + Math.cos(vol);
+  if(harm > 0.5){ if(last20[0] >= 5) bigW += 22; else smallW += 22; }
+  else { if(last20[0] >= 5) smallW += 22; else bigW += 22; }
+  const pred = bigW > smallW ? 'BIG' : 'SMALL';
+  const conf = Math.round((Math.max(bigW,smallW) / (bigW+smallW)) * 100);
+  return { prediction:pred, number:lg_pickNumberFor(nums, pred), reason:`4L ${conf}%` };
+}
+
+/* -------- Logic 4: 5_60533968118701170884.html -------- */
+function lg_logic_pattern3(ctx){
+  const { sizes, nums } = ctx;
+  if(sizes.length < 6) return null;
+  const currentPat = sizes.slice(0,3).reverse().join('-');
+  let bCnt = 0, sCnt = 0, matches = 0;
+  for(let i=1;i<sizes.length-4;i++){
+    const pat = sizes.slice(i, i+3).reverse().join('-');
+    if(pat === currentPat){
+      matches++;
+      const next = sizes[i-1];
+      if(next === 'BIG') bCnt++; else sCnt++;
+    }
+  }
+  let pred;
+  if(matches === 0) pred = sizes[0];
+  else pred = bCnt >= sCnt ? 'BIG' : 'SMALL';
+  return { prediction: pred, number: lg_pickNumberFor(nums, pred), reason: matches > 0 ? `${currentPat} ×${matches}→${pred}` : 'trend-follow' };
+}
+
+/* -------- Logic 5: VIPMODS.html -------- */
+function lg_logic_mayank(ctx){
+  const { sizes, nums } = ctx;
+  if(sizes.length < 3) return null;
+  let cons = 1;
+  for(let i=1;i<sizes.length;i++){ if(sizes[i]===sizes[0]) cons++; else break; }
+  if(cons >= 7){ const flip = sizes[0]==='BIG' ? 'SMALL' : 'BIG'; return { prediction:flip, number:lg_pickNumberFor(nums, flip), reason:`COUNTER ×${cons}` }; }
+  if(cons === 5){ const flip = sizes[0]==='BIG' ? 'SMALL' : 'BIG'; return { prediction:flip, number:lg_pickNumberFor(nums, flip), reason:`TREND-REV ×5` }; }
+  return { prediction:'BIG', number:5, reason:'DEFAULT-BIG' };
+}
+
+/* -------- Logic 6: NEW FILE.html -------- */
+function lg_logic_twolevel(ctx){
+  const { nums, sizes } = ctx;
+  if(sizes.length < 5) return null;
+  const big6 = sizes.slice(0,6).filter(s=>s==='BIG').length;
+  const ratio = big6 / Math.min(6, sizes.length);
+  let alt = 0;
+  const L = Math.min(5, sizes.length-1);
+  for(let i=0;i<L;i++) if(sizes[i]!==sizes[i+1]) alt++;
+  const altRate = alt / Math.max(1,L);
+  let streak = 1;
+  for(let i=1;i<sizes.length;i++){ if(sizes[i]===sizes[0]) streak++; else break; }
+  let l1Trend, l1Strength;
+  if(streak >= 3){ l1Trend = sizes[0]==='BIG'?'SMALL':'BIG'; l1Strength = 0.85; }
+  else if(altRate > 0.7){ l1Trend = sizes[0]==='BIG'?'SMALL':'BIG'; l1Strength = 0.75; }
+  else if(ratio > 0.65){ l1Trend = 'BIG'; l1Strength = ratio; }
+  else if(ratio < 0.35){ l1Trend = 'SMALL'; l1Strength = 1-ratio; }
+  else { const avg5 = nums.slice(0,5).reduce((a,b)=>a+b,0) / Math.min(5, nums.length); l1Trend = avg5 >= 4.5 ? 'BIG' : 'SMALL'; l1Strength = 0.6; }
+  let l2Trend = 'BIG', l2CycleMatch = false;
+  if(sizes.length >= 8){
+    const big15 = sizes.slice(0,Math.min(15,sizes.length)).filter(s=>s==='BIG').length;
+    const bigRatio = big15 / Math.min(15, sizes.length);
+    if(bigRatio > 0.55) l2Trend = 'BIG';
+    else if(bigRatio < 0.45) l2Trend = 'SMALL';
+    else l2Trend = l1Trend;
+    const blocks = {};
+    for(let i=0;i<Math.min(16,sizes.length);i+=2){ const b = sizes.slice(i,i+2).join(''); blocks[b] = (blocks[b]||0)+1; }
+    const top = Object.entries(blocks).sort((a,b)=>b[1]-a[1])[0];
+    if(top && top[1] / Math.max(1, Math.ceil(Math.min(16,sizes.length)/2)) > 0.55) l2CycleMatch = true;
+  }
+  const agree = l1Trend === l2Trend;
+  const pred = agree ? l1Trend : (l2CycleMatch ? l2Trend : l1Trend);
+  return { prediction: pred, number: lg_pickNumberFor(nums, pred), reason: agree ? 'L1+L2 agree' : 'L2 macro override' };
+}
+
+/* -------- Logic 7: DRAGON EMPIRE HACK.html -------- */
+function lg_logic_dragon_empire(ctx){
+  const { sizes, nums } = ctx;
+  if(sizes.length < 3) return null;
+  const trend = sizes.slice(0,3);
+  const pred = trend.filter(x=>x==='BIG').length >= 2 ? 'BIG' : 'SMALL';
+  return { prediction:pred, number:lg_pickNumberFor(nums, pred), reason:'3-trend vote' };
+}
+
+/* -------- Logic 8: html.html -------- */
+function lg_logic_elitev3(ctx){
+  const { nums, sizes, period } = ctx;
+  if(nums.length < 3) return null;
+  let streak = 1;
+  for(let i=0;i<sizes.length-1 && sizes[i]===sizes[i+1];i++) streak++;
+  let pred, pattern;
+  if(streak >= 4){ pred = sizes[0]==='BIG' ? 'SMALL' : 'BIG'; pattern = 'REVERSAL'; }
+  else if(streak >= 2){ pred = sizes[0]; pattern = 'CONTINUITY'; }
+  else if(sizes.length >= 3 && sizes[0]!==sizes[1] && sizes[1]!==sizes[2]){ pred = sizes[0]==='BIG' ? 'SMALL' : 'BIG'; pattern = 'PRIME-WAVE'; }
+  else { const bigs = sizes.slice(0,8).filter(x=>x==='BIG').length; pred = bigs >= 4 ? 'BIG' : 'SMALL'; pattern = 'BIAS'; }
+  const last = nums.slice(0, Math.min(16, nums.length));
+  const range = pred === 'SMALL' ? [0,1,2,3,4] : [5,6,7,8,9];
+  const freq = Object.fromEntries(range.map(n=>[n,0]));
+  last.forEach(n => { if(freq[n]!==undefined) freq[n]++; });
+  const hash = Number(String(period||'').slice(-4)) || 0;
+  range.sort((a,b)=> (freq[a]-freq[b]) || (a-b));
+  const overdue = range[0];
+  const mixed = range[hash % range.length];
+  const num = (hash % 3 === 0) ? overdue : mixed;
+  return { prediction:pred, number:num, reason:pattern };
+}
+
+/* -------- Logic 9: AKATSUKI_AI (1).html -------- */
+function lg_logic_akatsuki(ctx){
+  const { nums } = ctx;
+  if(nums.length < 3) return null;
+  const ws = lg_computeBSWeights(nums);
+  const size = ws.BIG >= ws.SMALL ? 'BIG' : 'SMALL';
+  return { prediction:size, number:lg_pickNumberFor(nums, size), reason:`akatsuki B${ws.BIG.toFixed(2)}/S${ws.SMALL.toFixed(2)}` };
+}
+
+/* -------- Logic 10: BLACKXGOKU~REAL.html -------- */
+function lg_logic_blackgoku(ctx){
+  const { nums, sizes } = ctx;
+  if(nums.length < 4) return null;
+  let mk = null;
+  const tr = {};
+  for(let i=0;i<sizes.length-1;i++){
+    if(!tr[sizes[i]]) tr[sizes[i]] = {};
+    tr[sizes[i]][sizes[i+1]] = (tr[sizes[i]][sizes[i+1]]||0) + 1;
+  }
+  if(tr[sizes[0]]){
+    const nexts = Object.entries(tr[sizes[0]]).sort((a,b)=>b[1]-a[1]);
+    if(nexts.length) mk = nexts[0][0];
+  }
+  let streak = 1;
+  for(let i=1;i<sizes.length;i++){ if(sizes[i]===sizes[0]) streak++; else break; }
+  let mom = null;
+  if(streak >= 3) mom = sizes[0]==='BIG'?'SMALL':'BIG';
+  else if(sizes.length >= 4){
+    const l4 = sizes.slice(0,4);
+    const alt = l4.every((s,i)=> i===0 || s!==l4[i-1]);
+    if(alt) mom = sizes[0]==='BIG'?'SMALL':'BIG';
+  }
+  let reg = null;
+  if(nums.length >= 5){
+    const n = nums.length;
+    let sx=0,sy=0,sxy=0,sx2=0;
+    for(let i=0;i<n;i++){ const x = i, y = nums[i]>=5?1:0; sx+=x; sy+=y; sxy+=x*y; sx2+=x*x; }
+    const denom = n*sx2 - sx*sx;
+    if(denom !== 0){
+      const slope = (n*sxy - sx*sy)/denom;
+      const intercept = (sy - slope*sx)/n;
+      const p = slope*n + intercept;
+      reg = p >= 0.45 ? 'BIG' : 'SMALL';
+    }
+  }
+  let bV = 0, sV = 0;
+  if(mk==='BIG') bV++; else if(mk==='SMALL') sV++;
+  if(mom==='BIG') bV++; else if(mom==='SMALL') sV++;
+  if(reg==='BIG') bV++; else if(reg==='SMALL') sV++;
+  const lastN = nums[0]>=5?'BIG':'SMALL';
+  if(lastN==='BIG') bV += 1.5; else sV += 1.5;
+  const recent = nums.slice(0, Math.min(12, nums.length));
+  const rb = recent.filter(n=>n>=5).length;
+  const rs = recent.length - rb;
+  if(rb > rs) bV += 0.8; else sV += 0.8;
+  if(mom){ if(mom==='BIG') bV += 0.5; else sV += 0.5; }
+  const pred = bV >= sV ? 'BIG' : 'SMALL';
+  return { prediction:pred, number:lg_pickNumberFor(nums, pred), reason:`ensemble ${bV.toFixed(0)}:${sV.toFixed(0)}` };
+}
+
+/* -------- Logic 11: NUMBER MOD.html -------- */
+function lg_logic_numbermod(ctx){
+  const { nums } = ctx;
+  if(nums.length < 3) return null;
+  const len = nums.length;
+  const freq = {};
+  nums.forEach(n => freq[n] = (freq[n]||0)+1);
+  const sortedFreq = Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+  const hot = sortedFreq.filter(([_,f])=> f===sortedFreq[0][1]).map(([k])=>Number(k));
+  const weights = nums.map((_,i)=>(i+1)/len);
+  const wsum = nums.reduce((acc,v,i)=>acc + v*weights[i], 0);
+  const wavg = wsum / weights.reduce((a,b)=>a+b,0);
+  const last3 = nums.slice(0,3);
+  const avg3 = last3.reduce((a,b)=>a+b,0) / Math.max(1,last3.length);
+  const transitions = {};
+  for(let i=0;i<nums.length-1;i++){
+    const from = nums[i], to = nums[i+1];
+    if(!transitions[from]) transitions[from] = {};
+    transitions[from][to] = (transitions[from][to]||0) + 1;
+  }
+  const lastNum = nums[0];
+  const patterns = {};
+  for(let l=2;l<=3;l++){
+    for(let i=0;i<=nums.length-l;i++){
+      const key = nums.slice(i,i+l).join(',');
+      patterns[key] = (patterns[key]||0) + 1;
+    }
+  }
+  const sortedPats = Object.entries(patterns).filter(([_,c])=>c>=2).sort((a,b)=>b[1]-a[1]);
+  const cand = new Map();
+  sortedFreq.forEach(([n,c])=>{ cand.set(Number(n), (cand.get(Number(n))||0) + (c/len)*30); });
+  for(let d=-2;d<=2;d++){ const v = Math.round(wavg + d); if(v>=0 && v<=9) cand.set(v, (cand.get(v)||0) + (12 - Math.abs(d)*3)); }
+  for(let d=-2;d<=2;d++){ const v = Math.round(avg3 + d); if(v>=0 && v<=9) cand.set(v, (cand.get(v)||0) + (10 - Math.abs(d)*2.5)); }
+  if(transitions[lastNum]){
+    const nx = Object.entries(transitions[lastNum]);
+    const t = nx.reduce((s,[_,c])=>s+c, 0);
+    nx.forEach(([to,c])=>{ cand.set(Number(to), (cand.get(Number(to))||0) + (c/t)*20); });
+  }
+  if(sortedPats.length){
+    const pat = sortedPats[0][0].split(',').map(Number);
+    for(let i=0;i<=nums.length-pat.length;i++){
+      let ok = true;
+      for(let j=0;j<pat.length;j++) if(nums[i+j]!==pat[j]){ ok=false; break; }
+      if(ok && i+pat.length < nums.length){ const nx = nums[i+pat.length]; cand.set(nx, (cand.get(nx)||0) + 14); }
+    }
+  }
+  const rBig = nums.slice(0,4).filter(v=>v>=5).length;
+  const rSm = nums.slice(0,4).filter(v=>v<5).length;
+  if(rBig >= 3){ for(let v=5;v<=9;v++) cand.set(v,(cand.get(v)||0)+6); }
+  else if(rSm >= 3){ for(let v=0;v<=4;v++) cand.set(v,(cand.get(v)||0)+6); }
+  hot.forEach(h => cand.set(h, (cand.get(h)||0) + 10));
+  for(let v=0;v<=9;v++) if(!cand.has(v)) cand.set(v, 2);
+  const scored = [];
+  cand.forEach((s, n) => scored.push({ n, s: s + Math.random()*2 }));
+  scored.sort((a,b)=> b.s - a.s);
+  const pick = scored[0].n;
+  return { prediction: pick>=5?'BIG':'SMALL', number: pick, reason:`weighted→#${pick}` };
+}
+
+/* -------- Logic 12: target.html -------- */
+function lg_logic_target(ctx){
+  const { sizes, nums } = ctx;
+  if(sizes.length < 5) return null;
+  let b = 0, s = 0;
+  for(let i=0;i<5;i++){ if(sizes[i]==='BIG') b++; else s++; }
+  if(b >= 4) return { prediction:'BIG', number:lg_pickNumberFor(nums,'BIG'), reason:`${b}/5 BIG` };
+  if(s >= 4) return { prediction:'SMALL', number:lg_pickNumberFor(nums,'SMALL'), reason:`${s}/5 SMALL` };
+  const flip = sizes[0]==='BIG'?'SMALL':'BIG';
+  return { prediction:flip, number:lg_pickNumberFor(nums,flip), reason:'flip-last' };
+}
+
+/* -------- Logic 13: bmw_oblivion_v1.html -------- */
+function lg_logic_bmw(ctx){
+  const { nums, sizes } = ctx;
+  if(sizes.length < 3) return null;
+  let streak = 1;
+  for(let i=1;i<Math.min(sizes.length,15);i++){ if(sizes[i]===sizes[0]) streak++; else break; }
+  let wB = 0.5, wS = 0.5;
+  let domName = 'MARKOV', domStrength = 0.05;
+  if(sizes.length >= 3){
+    const ws = lg_computeBSWeights(nums);
+    wB = ws.BIG; wS = ws.SMALL;
+    if(streak >= 3){ wB = 0.5; wS = 0.5; }
+  }
+  if(nums.length >= 6){
+    const key = `${nums[0]},${nums[1]},${nums[2]}`;
+    for(let i=3;i<nums.length-3;i++){
+      if(`${nums[i]},${nums[i+1]},${nums[i+2]}` === key){
+        const dn = nums[i-1];
+        if(dn >= 5) wB += 0.10; else wS += 0.10;
+        if(0.10 > domStrength){ domName = 'PATTERN'; domStrength = 0.10; }
+        break;
+      }
+    }
+  }
+  if(nums.length >= 5){
+    const gap = Array(10).fill(0).map((_,i)=>{ const idx = nums.indexOf(i); return idx === -1 ? nums.length : idx; });
+    const bGap = Math.max(...[0,1,2,3,4].map(x=>gap[x]));
+    const sGap = Math.max(...[5,6,7,8,9].map(x=>gap[x]));
+    if(bGap > sGap) wB += 0.06; else if(sGap > bGap) wS += 0.06;
+    if(0.06 > domStrength){ domName = 'GAP'; domStrength = 0.06; }
+  }
+  if(sizes.length >= 5){
+    let alt = 0;
+    const L = Math.min(sizes.length-1, 8);
+    for(let i=0;i<L;i++) if(sizes[i]!==sizes[i+1]) alt++;
+    const r = alt / Math.max(1,L);
+    if(r >= 0.75 && streak <= 1){
+      if(sizes[0]==='BIG') wS += 0.14; else wB += 0.14;
+      if(0.14 > domStrength){ domName = 'INVERSION'; domStrength = 0.14; }
+    }
+  }
+  if(streak >= 3){
+    const cur = sizes[0];
+    if(streak >= 6){
+      const opp = cur==='BIG'?'SMALL':'BIG';
+      if(opp==='BIG') wB += 0.46; else wS += 0.46;
+      domName = 'DRAGON-BREAK'; domStrength = 0.46;
+    } else {
+      if(cur==='BIG') wB += 0.26; else wS += 0.26;
+      domName = 'DRAGON-RIDE'; domStrength = 0.26;
+    }
+  }
+  const t = wB + wS;
+  wB = Math.max(0.05, Math.min(0.95, wB / t));
+  wS = 1 - wB;
+  const pred = wB >= wS ? 'BIG' : 'SMALL';
+  return { prediction:pred, number:lg_pickNumberFor(nums, pred), reason:`${domName} ${Math.round(Math.max(wB,wS)*100)}%` };
+}
+
+/* -------- Logic 14: newpoerfull (1).html -------- */
+function lg_logic_ragstk(ctx){
+  const { nums } = ctx;
+  if(nums.length < 8) return null;
+  const last20 = nums.slice(0, Math.min(20, nums.length));
+  const last10Sizes = last20.slice(0, Math.min(10, last20.length)).map(lg_getSize);
+  let bigW = 0, smallW = 0;
+  const markovMatrix = last20.reduce((acc,val,idx)=>{
+    if(idx < last20.length-1) acc += Math.abs(val - last20[idx+1]);
+    return acc;
+  }, 0);
+  const vol = markovMatrix / (last20.length - 1);
+  const avg = last20.reduce((a,b)=>a+b,0) / last20.length;
+  const variance = last20.reduce((a,b)=>a+Math.pow(b-avg,2),0) / last20.length;
+  const stdDev = Math.sqrt(variance);
+  if(avg > 4.5 + stdDev*0.15) smallW += 35;
+  else if(avg < 4.5 - stdDev*0.15) bigW += 35;
+  else { smallW += 17.5; bigW += 17.5; }
+  let cons = 1;
+  for(let i=0;i<Math.min(9, last10Sizes.length-1);i++){
+    if(last10Sizes[i]===last10Sizes[i+1]) cons++; else break;
+  }
+  if(cons >= 4){ if(last10Sizes[0]==='BIG') smallW += cons * 15; else bigW += cons * 15; }
+  else if(cons === 1){ if(last10Sizes[0]==='BIG') smallW += 28; else bigW += 28; }
+  else { if(last10Sizes[0]==='BIG') bigW += 25; else smallW += 25; }
+  const gap = Math.abs(last20[0] - last20[1]);
+  const harm = Math.sin(gap) + Math.cos(vol);
+  if(harm > 0.5){ if(last20[0] >= 5) bigW += 22; else smallW += 22; }
+  else { if(last20[0] >= 5) smallW += 22; else bigW += 22; }
+  const pred = bigW > smallW ? 'BIG' : 'SMALL';
+  const conf = Math.round((Math.max(bigW,smallW) / (bigW+smallW)) * 100);
+  return { prediction:pred, number:lg_pickNumberFor(nums, pred), reason:`elite ${conf}%` };
+}
+
+/* -------- Logic 15: JARVISH 1.html -------- */
+function jarvish_pad2(n){return String(n).padStart(2,'0');}
+const JARVISH_KEY_MAP={'0000':'B','0101':'S','0202':'S','0303':'B','0404':'S','0505':'S','0606':'B','0707':'B','0808':'S','0909':'S','1010':'S','1111':'S','1212':'B','1313':'S','1414':'B','1515':'S','1616':'B','1717':'S','1818':'S','1919':'S','2020':'B','2121':'S','2222':'S','2323':'S','2424':'B','2525':'S','2626':'S','2727':'S','2828':'S','2929':'S','3030':'S','3131':'S','3232':'S','3333':'S','3434':'S','3535':'B','3636':'B','3737':'B','3838':'S','3939':'S','4040':'S','4141':'S','4242':'B','4343':'B','4444':'S','4545':'B','4646':'S','4747':'S','4848':'S','4949':'B','5050':'S','5151':'S','5252':'S','5353':'S','5454':'B','5555':'S','5656':'S','5757':'S','5858':'S','5959':'B','6060':'S','6161':'S','6262':'S','6363':'S','6464':'S','6565':'B','6666':'S','6767':'S','6868':'B','6969':'S','7070':'B','7171':'S','7272':'S','7373':'B','7474':'S','7575':'B','7676':'S','7777':'S','7878':'S','7979':'S','8080':'B','8181':'B','8282':'S','8383':'S','8484':'B','8585':'S','8686':'B','8787':'B','8888':'S','8989':'B','9090':'S','9191':'S','9292':'S','9393':'B','9494':'S','9595':'S','9696':'B','9797':'B','9898':'B','9999':'S'};
+const JARVISH_NUMBER_CHART=['B','B','S','S','B','B','S','S','B','B','S','B','S','B','S','S','S','B','S','B','S','S','S','B','B','B','S','S','S','B','S','S','B','S','B','S','B','S','B','S','S','S','S','B','B','S','S','S','B','B','S','S','S','S','S','S','S','S','B','B','S','B','B','B','S','B','B','B','B','B','S','B','S','B','B','B','B','S','B','S','S','B','B','S','S','S','B','S','S','B','B','B','S','B','S','B','B','S','S','B'];
+const JARVISH_CHART_PATTERNS=[
+  {name:'Single',seq:'BSBSB',pred:'B',length:5},{name:'Single',seq:'SBSBS',pred:'S',length:5},
+  {name:'Double',seq:'SSBBSS',pred:'B',length:6},{name:'Double',seq:'BBSSBB',pred:'S',length:6},
+  {name:'Triple',seq:'BBBSSS',pred:'S',length:6},{name:'Triple',seq:'SSSBBB',pred:'B',length:6},
+  {name:'Quadra',seq:'SSSSBBBB',pred:'B',length:8},{name:'Quadra',seq:'BBBBSSSS',pred:'S',length:8},
+  {name:'Three in One',seq:'BBBSBBB',pred:'B',length:7},{name:'Three in One',seq:'SSSBSSS',pred:'S',length:7},
+  {name:'Two in One',seq:'SSBSSBSS',pred:'S',length:8},{name:'Two in One',seq:'BBSBBSBB',pred:'B',length:8},
+  {name:'Three in Two',seq:'BBBSSBBB',pred:'B',length:8},{name:'Three in Two',seq:'SSSBBSSS',pred:'S',length:8},
+  {name:'Four in One',seq:'SSSSBSSSS',pred:'S',length:9},{name:'Four in One',seq:'BBBBSBBBB',pred:'B',length:9},
+  {name:'Four in Two',seq:'BBBBSSBBBB',pred:'B',length:10},{name:'Four in Two',seq:'SSSSBBSSSS',pred:'S',length:10}
+];
+const JARVISH_FUZZY_THRESHOLD = 0.65;
+
+function jarvish_chartLabel(letter){return letter==='B'?'BIG 🟢':(letter==='S'?'SMALL 🔴':'—')}
+function jarvish_similarity(a,b){if(!a||!b||a.length!==b.length)return 0;let m=0;for(let i=0;i<a.length;i++)if(a[i]===b[i])m++;return m/a.length}
+
+function jarvish_detectAlternating(seqChrono){
+  const n=seqChrono.length;if(n<4)return null;
+  const tail=seqChrono.slice(-8);
+  let singleAlt=true;
+  for(let i=1;i<tail.length;i++){if(tail[i]===tail[i-1]){singleAlt=false;break}}
+  if(singleAlt&&tail.length>=4){
+    const last=tail[tail.length-1];const next=last==='B'?'S':'B';
+    const conf=tail.length>=6?.85:(tail.length>=5?.78:.70);
+    return{value:next,confidence:conf,pattern:'Single Alternate',reason:`Single → ${next}`};
+  }
+  if(n>=6){
+    const t6=seqChrono.slice(-6).join('');const t8=seqChrono.slice(-8).join('');
+    if(t6==='BBSSBB'||t6==='SSBBSS')return{value:t6[0],confidence:.75,pattern:'Double Alternate',reason:`Double → ${t6[0]}`};
+    if(t8==='BBSSBBSS'||t8==='SSBBSSBB')return{value:t8[0],confidence:.80,pattern:'Double Alternate',reason:`Double8 → ${t8[0]}`};
+    if(t6==='BBBSSS')return{value:'B',confidence:.75,pattern:'Triple Cycle',reason:'BBB SSS → B'};
+    if(t6==='SSSBBB')return{value:'S',confidence:.75,pattern:'Triple Cycle',reason:'SSS BBB → S'};
+  }
+  if(n>=5){
+    const last5=seqChrono.slice(-5).join('');
+    if(last5==='SBSBB'||last5==='BSBSS'){
+      const last=seqChrono[n-1];const next=last==='B'?'S':'B';
+      return{value:next,confidence:.72,pattern:'Opposite Single',reason:`Opposite → ${next}`};
+    }
+  }
+  return null;
+}
+
+function jarvish_matchChartPattern(seqChrono){
+  if(seqChrono.length<4)return{value:'-',confidence:0,pattern:'None',reason:'4+ values'};
+  const n=seqChrono.length;
+  const tail=len=>seqChrono.slice(-len).join('');
+  const sortedPatterns=[...JARVISH_CHART_PATTERNS].sort((a,b)=>b.length-a.length);
+  for(const p of sortedPatterns){
+    if(n>=p.length&&tail(p.length)===p.seq)return{value:p.pred,confidence:.75,pattern:p.name,reason:`${p.name} exact → ${p.pred}`};
+  }
+  let best=null;
+  for(const p of sortedPatterns){
+    if(n>=p.length){
+      const sim=jarvish_similarity(tail(p.length),p.seq);
+      if(sim>=JARVISH_FUZZY_THRESHOLD&&(!best||sim>best.sim))best={sim,p};
+    }
+  }
+  if(best){
+    const conf=.55+best.sim*.15;
+    const simPct=Math.round(best.sim*100);
+    return{value:best.p.pred,confidence:Math.min(.70,conf),pattern:best.p.name+' (fuzzy)',reason:`${best.p.name} fuzzy ${simPct}% → ${best.p.pred}`};
+  }
+  const last=seqChrono[n-1];let streak=1;
+  for(let i=n-2;i>=0;i--){if(seqChrono[i]===last)streak++;else break}
+  if(streak>=5)return{value:last==='B'?'S':'B',confidence:.68,pattern:'Long Trend',reason:`${streak}× → reversal`};
+  if(streak===4)return{value:last==='B'?'S':'B',confidence:.62,pattern:'Quadra Trend',reason:'4× → reversal'};
+  if(streak===3)return{value:last,confidence:.60,pattern:'Triple Trend',reason:'3× → continue'};
+  return{value:'-',confidence:0,pattern:'None',reason:'no match'};
+}
+
+function jarvish_getPatternChartVote(seqChrono){
+  const alt=jarvish_detectAlternating(seqChrono);
+  if(alt&&alt.value!=='-')return{value:alt.value,source:'Pattern',weight:1.5,reason:alt.reason};
+  const chart=jarvish_matchChartPattern(seqChrono);
+  if(chart.value!=='-')return{value:chart.value,source:'Pattern',weight:1.5,reason:chart.reason};
+  return null;
+}
+
+function jarvish_getVipCoreVote(seqChrono){
+  if(!Array.isArray(seqChrono)||seqChrono.length<5)return null;
+  const bits=seqChrono.map(x=>x==='B'?1:0);
+  const n=bits.length;
+  const vWin=bits.slice(-Math.min(5,n));
+  const vSum=vWin.reduce((a,b)=>a+b,0);
+  const vVote=vSum%2===0?'B':'S';
+  const last2=bits.slice(-2);
+  const iVal=last2[0]*10+last2[1];
+  const iVote=iVal>5?'B':'S';
+  const last3=bits.slice(-3).join('');
+  const colorMap={'000':'S','001':'S','010':'B','011':'B','100':'B','101':'S','110':'B','111':'S'};
+  const pVote=colorMap[last3]||'S';
+  let bV=0,sV=0;
+  if(vVote==='B')bV++;else sV++;
+  if(iVote==='B')bV++;else sV++;
+  if(pVote==='B')bV++;else sV++;
+  let aiVal,tieBreak='consensus';
+  if(bV>sV)aiVal='B';
+  else if(sV>bV)aiVal='S';
+  else{ const avg=bits.reduce((a,b)=>a+b,0)/n; aiVal=avg>=0.5?'S':'B'; tieBreak='mean-reversion'; }
+  const consensus=Math.max(bV,sV)/3;
+  const confidence=0.60+consensus*0.30;
+  return{ value:aiVal, source:'VIP Core', weight:3.2, reason:`V:${vVote} • I:${iVote} • P:${pVote} → ${aiVal} (${bV}-${sV})`, confidence };
+}
+
+function jarvish_getKeyMapVote(periodId){
+  if(!periodId||periodId.length<2)return null;
+  const last2=periodId.slice(-2),key=last2+last2;
+  const result=JARVISH_KEY_MAP[key];
+  if(!result)return null;
+  return{value:result,source:'keyMap',weight:1,key,reason:`Key ${key} → ${result}`,keyDisplay:key};
+}
+function jarvish_getNumberChartVote(chartNum1){
+  if(chartNum1===null)return null;
+  const res=JARVISH_NUMBER_CHART[chartNum1];
+  if(res!=='B'&&res!=='S')return null;
+  return{value:res,source:'Number',weight:1,reason:`${jarvish_pad2(chartNum1)} → ${jarvish_chartLabel(res)}`};
+}
+function jarvish_getComebackVote(seqChrono,periodId,chartNum1){
+  const numVote=jarvish_getNumberChartVote(chartNum1);
+  const patternVote=jarvish_getPatternChartVote(seqChrono);
+  const keyMapVote=jarvish_getKeyMapVote(periodId);
+  const comebackVotes=[];
+  if(numVote)comebackVotes.push(numVote);
+  if(patternVote)comebackVotes.push(patternVote);
+  if(keyMapVote)comebackVotes.push(keyMapVote);
+  if(comebackVotes.length===0)return null;
+  const bVotes=comebackVotes.filter(v=>v.value==='B');
+  const sVotes=comebackVotes.filter(v=>v.value==='S');
+  const bWeight=bVotes.reduce((sum,v)=>sum+v.weight,0);
+  const sWeight=sVotes.reduce((sum,v)=>sum+v.weight,0);
+  let value,confidence,patternName,reason;
+  if(bWeight===sWeight){
+    if(keyMapVote&&keyMapVote.value){ value=keyMapVote.value; confidence=0.65; patternName='TIEBREAK-KEYMAP'; reason=`Tie → KeyMap ${keyMapVote.keyDisplay} = ${value}`; }
+    else return null;
+  }else{
+    const winner=bWeight>sWeight?'B':'S';
+    const winnerVotes=comebackVotes.filter(v=>v.value===winner);
+    const loserVotes=comebackVotes.filter(v=>v.value!==winner);
+    if(comebackVotes.length===3&&loserVotes.length===0){confidence=0.95;patternName='3-0 UNANIMOUS';}
+    else if(comebackVotes.length===3&&winnerVotes.length===2){confidence=0.80;patternName='2-1 MAJORITY';}
+    else if(comebackVotes.length===2&&loserVotes.length===0){confidence=0.90;patternName='2-0 AGREE';}
+    else if(comebackVotes.length===2){confidence=0.72;patternName='WEIGHTED';}
+    else{confidence=Math.min(1,(winnerVotes[0].weight||1)*0.85);patternName=(winnerVotes[0].source||'Single')+' Only';}
+    value=winner;
+    reason=`COMEBACK ${patternName} → ${value} • ${winnerVotes.map(v=>v.source).join(' + ')}`;
+  }
+  return{ value,source:'COMEBACK',weight:3.5,confidence,reason,pattern:patternName };
+}
+
+function lg_logic_jarvish(ctx){
+  const nums = Array.isArray(ctx.nums) ? ctx.nums : [];
+  const sizes = Array.isArray(ctx.sizes) ? ctx.sizes : [];
+  if(nums.length < 2 || sizes.length < 2) return null;
+  const seqChrono = sizes.slice().reverse().map(s => s === 'BIG' ? 'B' : 'S');
+  const chartNum = Number(String(nums[0]) + String(nums[1]));
+  const periodId = lg_nextIssueId(ctx.period) || String(ctx.period || '');
+  const patternVote = jarvish_getPatternChartVote(seqChrono);
+  const vipVote = jarvish_getVipCoreVote(seqChrono);
+  const comebackVote = jarvish_getComebackVote(seqChrono, periodId, chartNum);
+  const votes = [patternVote, vipVote, comebackVote].filter(Boolean);
+  let winner, patternName, confidence = 0.55;
+  if(votes.length === 0){
+    const last = seqChrono[seqChrono.length - 1];
+    winner = last === 'B' ? 'S' : 'B';
+    patternName = 'EARLY';
+  }else{
+    const bVotes = votes.filter(v => v.value === 'B');
+    const sVotes = votes.filter(v => v.value === 'S');
+    const bWeight = bVotes.reduce((sum,v) => sum + v.weight, 0);
+    const sWeight = sVotes.reduce((sum,v) => sum + v.weight, 0);
+    if(bWeight > sWeight) winner = 'B';
+    else if(sWeight > bWeight) winner = 'S';
+    else{ const heaviest = votes.slice().sort((a,b) => b.weight - a.weight)[0]; winner = heaviest ? heaviest.value : 'B'; }
+    const winnerVotes = votes.filter(v => v.value === winner);
+    const loserVotes = votes.filter(v => v.value !== winner);
+    if(votes.length === 3 && loserVotes.length === 0){ confidence = 0.95; patternName = '3-0 UNANIMOUS'; }
+    else if(votes.length === 3 && winnerVotes.length === 2){ confidence = 0.80; patternName = '2-1 MAJORITY'; }
+    else if(votes.length === 2 && loserVotes.length === 0){ confidence = 0.90; patternName = '2-0 AGREE'; }
+    else if(votes.length === 2){ confidence = 0.72; patternName = 'WEIGHTED VOTE'; }
+    else{ confidence = Math.max(...winnerVotes.map(v => v.confidence || 0.68)); patternName = (winnerVotes[0]?.source || 'Single') + ' Only'; }
+  }
+  const prediction = winner === 'B' ? 'BIG' : 'SMALL';
+  return { prediction, number: lg_pickNumberFor(nums, prediction), reason: `${patternName} · ${Math.round(confidence * 100)}%` };
+}
+
+/* -------- Registry of all 15 logics -------- */
+const TRICK_LOGICS = [
+  { file:'noname.html',                      fn: lg_logic_drago_noname },
+  { file:'KING VIP HACK.html',               fn: lg_logic_kingvip },
+  { file:'8 th scalping  (1) (1) (1).html',  fn: lg_logic_wolfcore },
+  { file:'5_60533968118701170884.html',      fn: lg_logic_pattern3 },
+  { file:'VIPMODS.html',                     fn: lg_logic_mayank },
+  { file:'NEW FILE.html',                    fn: lg_logic_twolevel },
+  { file:'DRAGON EMPIRE HACK.html',          fn: lg_logic_dragon_empire },
+  { file:'html.html',                        fn: lg_logic_elitev3 },
+  { file:'𝗔𝗞𝗔𝗧𝗦𝗨𝗞𝗜_𝗔𝗜_ (1).html',           fn: lg_logic_akatsuki },
+  { file:'BLACKXGOKU~REAL.html',             fn: lg_logic_blackgoku },
+  { file:'NUMBER MOD.html',                  fn: lg_logic_numbermod },
+  { file:'target.html',                      fn: lg_logic_target },
+  { file:'bmw_oblivion_v1.html',             fn: lg_logic_bmw },
+  { file:'newpoerfull (1).html',             fn: lg_logic_ragstk },
+  { file:'JARVISH 1.html',                   fn: lg_logic_jarvish }
+];
+
+/* -------- The TRICK card voter: runs all 15 logics + majority -------- */
+function getTRICK_Card_Vote(allNumsChrono, latestPeriod){
+  if(!Array.isArray(allNumsChrono) || allNumsChrono.length < 3) return null;
+  const nums = allNumsChrono.slice().reverse();
+  const sizes = nums.map(lg_getSize);
+  const ctx = { nums, sizes, period: latestPeriod };
+  let big = 0, small = 0;
+  for(const L of TRICK_LOGICS){
+    try {
+      const out = L.fn(ctx);
+      if(out && out.prediction === 'BIG') big++;
+      else if(out && out.prediction === 'SMALL') small++;
+    } catch(e) { }
+  }
+  const total = big + small;
+  if(total === 0) return null;
+  if(big > small) return 'B';
+  if(small > big) return 'S';
+  return null;
+}
+
+/* ===== STATE & API LOGIC ===== */
+const TOTAL=10,STORAGE_KEY='bs_state_win_final_v6';
+let window10=new Array(TOTAL).fill(null),hiddenHistory=[],mode='setup',history=[],lockedPred=null;
+let allResults=[],allNumbers=[];
+let comboLevel=1,personalLevel=1,trickLevel=1,pendingForecast=null;
+let snapshots=[],lastAddedIndex=-1,gameMode='1min',winFlashTimer=null;
+let currentLevel=1, highestLevel=1;
+let apiPollTimer=null,apiBusy=false;
+let apiLastIssue={'1min':null,'30sec':null},apiSeeded={'1min':false,'30sec':false};
+let latestApiResults=[];
+
+const $=id=>document.getElementById(id);
+function pad2(n){return String(n).padStart(2,'0')}
+
+function getUTCPeriod(){
+  const now=new Date(),y=now.getUTCFullYear(),mo=pad2(now.getUTCMonth()+1),d=pad2(now.getUTCDate()),h=now.getUTCHours(),mi=now.getUTCMinutes();
+  if(gameMode==='1min'){const seq=String(10001+h*60+mi).padStart(5,'0');return ''+y+mo+d+'1000'+seq}
+  const tot=h*3600+mi*60+now.getUTCSeconds();
+  const seq=String(50001+Math.floor(tot/30)).padStart(5,'0');
+  return ''+y+mo+d+'1000'+seq;
+}
+
+function getRemainingSeconds(){const s=new Date().getUTCSeconds();return gameMode==='30sec'?30-(s%30):60-s}
+function updateTimerAndPeriod(){const rem=getRemainingSeconds();$('timer').textContent=`⏱ ${pad2(rem)}s`;$('periodId').textContent=getUTCPeriod()}
+
+function updatePrediction(){
+  const current=getUTCPeriod();
+  const seqChrono=allResults.length ? allResults.slice(-100) : window10.filter(x=>x==='B'||x==='S').slice().reverse();
+  const numsChrono=allNumbers.length ? allNumbers.slice(-100) : seqChrono.map(v=>v==='B'?7:2);
+  const comboVote=getCOMBO_Card_Vote(seqChrono,current);
+  const personalVote=getPERSONAL_Card_Vote(seqChrono,history);
+  const trickVote=getTRICK_Card_Vote(numsChrono,current);
+
+  let finalVal=null, isOverride=false;
+  const maxLvl=Math.max(comboLevel,personalLevel,trickLevel);
+  if(maxLvl>=3){
+    if(comboLevel===maxLvl){finalVal=comboVote;isOverride=true;}
+    else if(personalLevel===maxLvl){finalVal=personalVote;isOverride=true;}
+    else if(trickLevel===maxLvl){finalVal=trickVote;isOverride=true;}
+  }
+  if(!isOverride){
+    const votes=[comboVote,personalVote,trickVote].filter(v=>v==='B'||v==='S');
+    const b=votes.filter(v=>v==='B').length, s=votes.filter(v=>v==='S').length;
+    if(b>s)finalVal='B'; else if(s>b)finalVal='S';
+  }
+  let displayVal=finalVal, isReversed=false;
+  const reverseLevel=currentLevel===4||currentLevel===5;
+  const skipReverse=isOverride&&(maxLvl>=6||(currentLevel>=5&&maxLvl>=5));
+  if(finalVal&&reverseLevel&&!skipReverse){displayVal=finalVal==='B'?'S':'B';isReversed=true;}
+
+  const confidence=[comboVote,personalVote,trickVote].filter(v=>v==='B'||v==='S').length/3;
+  lockedPred={
+    value:displayVal||'-', rawValue:finalVal, periodId:current,
+    confidence:confidence, pattern:isOverride?'LEVEL OVERRIDE':'3-CATEGORY VOTE',
+    reason:'', isConflict:false, isSkip:!displayVal,
+    comboVote,personalVote,trickVote,isOverride,isReversed,originalVal:finalVal
+  };
+  renderPrediction();
+}
+function renderBoxes(){
+  const el=$('boxes');if(!el)return;
+  el.innerHTML='';
+  for(let i=0;i<TOTAL;i++){
+    const box=document.createElement('div'),anim=i===lastAddedIndex&&lastAddedIndex>=0?' new-anim':'';
+    box.className='box'+(window10[i]?' '+window10[i]:'')+anim;
+    box.textContent=window10[i]||'';
+    el.appendChild(box);
+  }
+  lastAddedIndex=-1;
+}
+
+function renderPrediction(){
+  const v=$('predValue'),c=$('predConf');
+  $('highestLevelDisplay').textContent=`L${highestLevel}`;
+  $('currentLevelDisplay').textContent=`L${currentLevel}`;
+  const cardData=[
+    ['valCombo','lvlCombo',lockedPred&&lockedPred.comboVote,comboLevel],
+    ['valPersonal','lvlPersonal',lockedPred&&lockedPred.personalVote,personalLevel],
+    ['valTrick','lvlTrick',lockedPred&&lockedPred.trickVote,trickLevel]
+  ];
+  cardData.forEach(([valId,lvlId,value,level])=>{
+    const el=$(valId),lvl=$(lvlId);
+    if(el){el.textContent=value||'—';el.className='ai-card-val '+(value||'WAIT');}
+    if(lvl){lvl.textContent='L'+level;lvl.className='ai-card-lvl'+(level>=3?' high-lvl':'');}
+  });
+  if(!lockedPred){
+    v.className='pred-value WAIT';v.textContent='WAIT';c.textContent='—';return;
+  }
+  v.className='pred-value '+(lockedPred.value==='B'||lockedPred.value==='S'?lockedPred.value:'WAIT');
+  v.textContent=lockedPred.value==='B'?'BIG':lockedPred.value==='S'?'SMALL':'WAIT';
+  c.textContent=(lockedPred.confidence*100).toFixed(0)+'%';
+}
+// A short celebratory win chime generated locally (no external audio file needed).
+let winAudioContext = null;
+function playWinSound() {
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!winAudioContext) winAudioContext = new AudioCtx();
+        if (winAudioContext.state === 'suspended') winAudioContext.resume();
+        const ctx = winAudioContext;
+        const start = ctx.currentTime + 0.03;
+        // Bright, pleasant three-note celebration with a soft shimmer.
+        const notes = [
+            { f: 659.25, t: 0.00, d: 0.22 },
+            { f: 783.99, t: 0.15, d: 0.24 },
+            { f: 987.77, t: 0.31, d: 0.34 },
+            { f: 1318.51, t: 0.48, d: 0.48 }
+        ];
+        notes.forEach((n, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const shimmer = ctx.createOscillator();
+            const shimmerGain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(n.f, start + n.t);
+            gain.gain.setValueAtTime(0.0001, start + n.t);
+            gain.gain.exponentialRampToValueAtTime(i === 3 ? 0.16 : 0.12, start + n.t + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + n.t + n.d);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(start + n.t); osc.stop(start + n.t + n.d + 0.03);
+            // A quiet octave overtone gives the chime a polished sparkle.
+            shimmer.type = 'triangle';
+            shimmer.frequency.setValueAtTime(n.f * 2, start + n.t);
+            shimmerGain.gain.setValueAtTime(0.0001, start + n.t);
+            shimmerGain.gain.exponentialRampToValueAtTime(0.025, start + n.t + 0.03);
+            shimmerGain.gain.exponentialRampToValueAtTime(0.0001, start + n.t + n.d * 0.8);
+            shimmer.connect(shimmerGain); shimmerGain.connect(ctx.destination);
+            shimmer.start(start + n.t); shimmer.stop(start + n.t + n.d + 0.03);
+        });
+    } catch (e) { console.debug('Win sound unavailable:', e); }
+}
+function triggerWinAnimation() {
+    if (!isVerified) return;
+    playWinSound();
+    const overlay = $('winOverlay');
+    overlay.classList.add('show');
+    setTimeout(() => { overlay.classList.remove('show'); }, 2500);
+}
+
+function renderAll(){renderBoxes();renderPrediction();}
+
+/* ===== REAL API FETCHING ===== */
+function extractApiRows(payload){
+  const found=[],seen=new Set();
+  function walk(node,depth){
+    if(!node||typeof node!=='object'||depth>8||seen.has(node))return;
+    seen.add(node);
+    if(Array.isArray(node)){for(const item of node)walk(item,depth+1);return}
+    const issueRaw=node.issueNumber!=null?node.issueNumber:(node.issue_number!=null?node.issue_number:(node.issue!=null?node.issue:(node.period!=null?node.period:(node.periodNumber!=null?node.periodNumber:node.issue_no))));
+    const raw=node.number!=null?node.number:(node.resultNumber!=null?node.resultNumber:(node.result_number!=null?node.result_number:(node.result!=null?node.result:(node.openNumber!=null?node.openNumber:node.winNumber))));
+    if(issueRaw!==undefined&&raw!==undefined){
+      const issue=String(issueRaw).trim();
+      const match=String(raw).match(/(?:^|\D)([0-9])(?:\D|$)/);
+      const number=match?Number(match[1]):NaN;
+      if(issue&&Number.isFinite(number)&&number>=0&&number<=9)found.push({issue:issue,number:number,value:number>=5?'B':'S'});
+    }
+    Object.values(node).forEach(function(v){walk(v,depth+1)});
+  }
+  walk(payload,0);
+  const unique=Array.from(new Map(found.map(function(r){return [r.issue,r]})).values());
+  unique.sort(function(a,b){
+    if(/^\d+$/.test(a.issue)&&/^\d+$/.test(b.issue)){const aa=BigInt(a.issue),bb=BigInt(b.issue);return aa<bb?-1:aa>bb?1:0}
+    return a.issue.localeCompare(b.issue,undefined,{numeric:true});
+  });
+  return unique;
+}
+
+function setApiNumberChart(){
+  const nums=latestApiResults.map(function(r){return String(r.number)});
+  numInputVal=nums.join('').slice(0,2);
+  chartNum1=numInputVal===''?null:Number(numInputVal);
+}
+
+function applyApiResult(r){
+  if(lockedPred){
+    const skip=lockedPred.isSkip||lockedPred.value==='-';
+    if(skip)history.push({periodId:lockedPred.periodId||r.issue,predicted:'-',actual:r.value,correct:null,wasSkip:true,level:currentLevel});
+    else{
+      const wasCorrect=lockedPred.value===r.value;
+      history.push({periodId:lockedPred.periodId||r.issue,predicted:lockedPred.value,actual:r.value,correct:wasCorrect,level:currentLevel});
+      if(wasCorrect){currentLevel=1; triggerWinAnimation();}
+      else{currentLevel++; if(currentLevel>highestLevel) highestLevel=currentLevel;}
+    }
+    if(lockedPred.comboVote) comboLevel=lockedPred.comboVote===r.value?1:comboLevel+1;
+    if(lockedPred.personalVote) personalLevel=lockedPred.personalVote===r.value?1:personalLevel+1;
+    if(lockedPred.trickVote) trickLevel=lockedPred.trickVote===r.value?1:trickLevel+1;
+    lockedPred=null;
+  }
+  allResults.push(r.value);
+  allNumbers.push(r.number);
+  if(mode==='setup'){
+    const idx=window10.findIndex(function(x){return x===null});
+    if(idx!==-1){window10[idx]=r.value;hiddenHistory.push(r.value);lastAddedIndex=idx}
+    if(window10.every(function(x){return x!==null}))mode='rolling';
+  }else{
+    const dropped=window10[TOTAL-1];
+    if(dropped==='B'||dropped==='S')hiddenHistory.push(dropped);
+    window10.pop();window10.unshift(r.value);lastAddedIndex=0;
+  }
+  updatePrediction();renderAll();
+}
+
+async function pollGameAPI(){
+  if(apiBusy)return;
+  apiBusy=true;
+  const url = gameMode==='1min'?'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json':'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json';
+  try{
+    const response=await fetch(url,{method:'GET',cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP');
+    const payload=await response.json();
+    const rows=extractApiRows(payload);
+    if(!rows.length)throw new Error('No rows');
+    const last=rows[rows.length-1];
+    latestApiResults=rows.slice(-2).reverse();
+    
+    if(!apiSeeded[gameMode]){
+      const recent=rows.slice(-TOTAL).reverse();
+      window10=new Array(TOTAL).fill(null);
+      recent.forEach(function(r,i){window10[i]=r.value});
+      hiddenHistory=rows.slice(0,-TOTAL).reverse().map(function(r){return r.value});
+      mode=recent.length===TOTAL?'rolling':'setup';
+      apiLastIssue[gameMode]=last.issue;
+      apiSeeded[gameMode]=true;
+      allResults=rows.map(function(r){return r.value;});
+      allNumbers=rows.map(function(r){return r.number;});
+      setApiNumberChart();
+      updatePrediction();renderAll();
+    }else if(apiLastIssue[gameMode]!==last.issue){
+      let fresh=rows.filter(function(r){
+        if(/^\d+$/.test(r.issue)&&/^\d+$/.test(String(apiLastIssue[gameMode]||'')))return BigInt(r.issue)>BigInt(apiLastIssue[gameMode]);
+        return String(r.issue).localeCompare(String(apiLastIssue[gameMode]||''),undefined,{numeric:true})>0;
+      });
+      if(!fresh.length)fresh=[last];
+      fresh.forEach(function(r){applyApiResult(r)});
+      apiLastIssue[gameMode]=last.issue;
+      setApiNumberChart();updatePrediction();renderAll();
+    }else{
+      setApiNumberChart();updatePrediction();renderAll();
+    }
+  }catch(err){
+    console.warn('API failed, but UI is alive via seeded data.');
+  }finally{apiBusy=false}
+}
+
+function startApiPolling(){
+  if(apiPollTimer)clearInterval(apiPollTimer);
+  pollGameAPI();
+  apiPollTimer=setInterval(pollGameAPI,3000);
+}
+
+function switchMode(m){
+  if(m===gameMode)return;
+  gameMode=m;
+  apiSeeded[m]=false;apiLastIssue[m]=null;
+  window10=new Array(TOTAL).fill(null);hiddenHistory=[];mode='setup';lockedPred=null;lastAddedIndex=-1;
+  history=[];snapshots=[];
+  currentLevel=1; highestLevel=1;
+  allResults=[];allNumbers=[];comboLevel=1;personalLevel=1;trickLevel=1;
+  
+  $('oneMinBtn').classList.toggle('active',gameMode==='1min');
+  $('thirtySecBtn').classList.toggle('active',gameMode==='30sec');
+  renderAll();updateTimerAndPeriod();
+  pollGameAPI();
+}
+
+// INIT
+setInterval(updateTimerAndPeriod, 1000);
+updateTimerAndPeriod();
+renderBoxes();
+startApiPolling();
+</script>
+</body>
+</html>
